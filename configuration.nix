@@ -15,6 +15,7 @@
       #./fail2ban.nix
       #./suricata.nix
       ./klipper.nix
+      ./octoprint.nix
     ];
 
   # swapDevices = [{

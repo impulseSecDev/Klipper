@@ -63,4 +63,6 @@
       };
     };
   };
+
+  services.nginx.clientMaxBodySize = "1024m";
 }
