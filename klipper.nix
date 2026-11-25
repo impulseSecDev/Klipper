@@ -64,5 +64,7 @@
     };
   };
 
+  services.mjpg-streamer.enable = true; #webcam support
+
   services.nginx.clientMaxBodySize = "1024m";
 }

@@ -7,7 +7,7 @@
 {
   services.octoprint = {
     enable = true;
-    host = "127.0.0.1";
+    host = "100.64.0.14";
     port = 6899;
   };
 }
