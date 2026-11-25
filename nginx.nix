@@ -77,6 +77,14 @@
           "/" = {
             proxyPass = "http://127.0.0.1:8080";
           };
+          "/webcam" = {
+            proxyPass = "http://127.0.0.1:5050";
+            extraConfig = ''
+              proxy_buffering off;      # Prevents MJPEG stream freezes
+              proxy_cache off;
+              proxy_read_timeout 600s;
+            '';
+          };
         };
       };
     };

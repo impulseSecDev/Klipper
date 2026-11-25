@@ -1,0 +1,10 @@
+
+keys:
+  - &admin_tim age1az28qfxahja456lhj2hwedypc85852c0upn3achn5jw83a76uvqsxl6t9v
+  - &server_klipper age1capm5el02g34vgl75kpjcjeywe4ytuf6euemnz57sxur7azwxdjq2f30aj
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *admin_tim
+      - *server_klipper

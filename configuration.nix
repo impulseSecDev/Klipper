@@ -11,26 +11,26 @@
       #./fluent-bit.nix
       #./wireguard.nix
       #./wazuh-agent.nix
-      #./nginx.nix
+      ./nginx.nix
       #./fail2ban.nix
       #./suricata.nix
       ./klipper.nix
       ./octoprint.nix
     ];
 
-  # swapDevices = [{
-  #   device = "/var/lib/swapfile";
-  #   size = 4 * 1024;
-  # }];
+  swapDevices = [{
+    device = "/var/lib/swapfile";
+    size = 1024;
+  }];
 
-  # sops.secrets."user_password" = {
-  #   neededForUsers = true;
-  # };
-  #
-  # sops = {
-  #   defaultSopsFile = ./secrets/secrets.yaml;
-  #   age.keyFile = "/var/lib/sops-nix/keys.txt";
-  # };
+  sops.secrets."user_password" = {
+    neededForUsers = true;
+  };
+
+  sops = {
+    defaultSopsFile = ./secrets/secrets.yaml;
+    age.keyFile = "/var/lib/sops-nix/keys.txt";
+  };
   boot.kernelPackages = pkgs.linuxPackages; 
   boot.supportedFilesystems = lib.mkForce [ "vfat" "fat32" "exfat" "ext4" "btrfs" ];
 
@@ -52,8 +52,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.tim = {
     isNormalUser = true;
-    #hashedPasswordFile = config.sops.secrets."user_password".path;
-    initialPassword = "password";
+    hashedPasswordFile = config.sops.secrets."user_password".path;
     extraGroups = [ "wheel" "docker" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       btop
