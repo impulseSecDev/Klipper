@@ -23,7 +23,23 @@
     };
   };
 
-  services.fluidd.enable = true;  
+  services.fluidd = {
+    enable = true;
+    hostName = "klipper.mesh.loranjennings.com";
+    nginx = {
+      useACMEHost = "mesh.loranjennings.com";
+      forceSSL = true;
+      listen = [ { addr = "100.64.0.14"; port = 443; ssl = true; } ];
+      locations."/webcam/" = {
+        proxyPass = "http://127.0.0.1:5050/";
+        extraConfig = ''
+          proxy_buffering off;      # Prevents MJPEG stream freezes
+          proxy_cache off;
+          proxy_read_timeout 600s;
+        '';
+      };
+    };
+  };
 
   systemd.services.klipper.serviceConfig = {
     ReadWritePaths = [ 
@@ -34,6 +50,8 @@
   services.klipper = {
     configFile = "/srv/printer_data/config/printer.cfg";
     enable = true;
+    user = "klipper";
+    group = "klipper";
     configDir = "/srv/printer_data/config";
     mutableConfig = true;
 
@@ -48,6 +66,7 @@
   services.moonraker = {
     enable = true;
     user = "klipper";
+    group = "klipper";
     stateDir = "/srv/printer_data";
     settings = {
       authorization = {
